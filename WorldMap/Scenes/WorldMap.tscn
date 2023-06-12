@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://bmehiqu647yyv"]
+
+[ext_resource type="Script" path="res://WorldMap/Scripts/MapNodes.gd" id="1_gbvbb"]
+[ext_resource type="PackedScene" uid="uid://4ycrxi3higj1" path="res://WorldMap/Objects/MapLocation.tscn" id="2_kn4ug"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_j2eje"]
+size = Vector3(30, 1, 30)
+
+[sub_resource type="BoxMesh" id="BoxMesh_6wh56"]
+size = Vector3(30, 1, 30)
+
+[node name="WorldMap" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.422618, 0.906308, 0, -0.906308, 0.422618, 0, 8, 3)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Camera3D"]
+
+[node name="Ground" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("BoxShape3D_j2eje")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("BoxMesh_6wh56")
+
+[node name="MapNodes" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("1_gbvbb")
+MapLocation = ExtResource("2_kn4ug")
