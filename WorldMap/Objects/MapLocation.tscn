@@ -1,4 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://4ycrxi3higj1"]
+[gd_scene load_steps=4 format=3 uid="uid://4ycrxi3higj1"]
+
+[ext_resource type="Script" path="res://WorldMap/Scripts/MapLocation.gd" id="1_x4dlx"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o766d"]
 albedo_color = Color(0, 0.192157, 1, 1)
@@ -10,6 +12,9 @@ bottom_radius = 1.0
 height = 0.5
 
 [node name="Node3D" type="StaticBody3D"]
+script = ExtResource("1_x4dlx")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("CylinderMesh_fqhii")
+
+[node name="Edges" type="Node" parent="."]

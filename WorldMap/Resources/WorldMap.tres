@@ -1,0 +1,36 @@
+[gd_resource type="Resource" script_class="Map" load_steps=9 format=3 uid="uid://c801gu7obwjly"]
+
+[ext_resource type="Script" path="res://WorldMap/Resources/Map.gd" id="1_i5wkf"]
+[ext_resource type="Script" path="res://WorldMap/Resources/Edge.gd" id="1_nqkn5"]
+[ext_resource type="Script" path="res://WorldMap/Resources/MapNode.gd" id="1_utsmu"]
+
+[sub_resource type="Resource" id="Resource_4b1to"]
+script = ExtResource("1_nqkn5")
+to = Array[int]([1, 2])
+
+[sub_resource type="Resource" id="Resource_btxc1"]
+script = ExtResource("1_nqkn5")
+to = Array[int]([1])
+
+[sub_resource type="Resource" id="Resource_aw3kv"]
+script = ExtResource("1_utsmu")
+name = "Home"
+position = Vector3(0, 1, 0)
+type = 0
+
+[sub_resource type="Resource" id="Resource_fg2r4"]
+script = ExtResource("1_utsmu")
+name = "Test"
+position = Vector3(-5, 1, -3)
+type = 0
+
+[sub_resource type="Resource" id="Resource_1516s"]
+script = ExtResource("1_utsmu")
+name = "Test2"
+position = Vector3(6, 1, -2)
+type = null
+
+[resource]
+script = ExtResource("1_i5wkf")
+nodes = Array[ExtResource("1_utsmu")]([SubResource("Resource_aw3kv"), SubResource("Resource_fg2r4"), SubResource("Resource_1516s")])
+edges = Array[ExtResource("1_nqkn5")]([SubResource("Resource_4b1to"), SubResource("Resource_btxc1")])
