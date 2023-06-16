@@ -10,7 +10,7 @@ to = Array[int]([1, 2])
 
 [sub_resource type="Resource" id="Resource_btxc1"]
 script = ExtResource("1_nqkn5")
-to = Array[int]([1])
+to = Array[int]([2])
 
 [sub_resource type="Resource" id="Resource_aw3kv"]
 script = ExtResource("1_utsmu")
