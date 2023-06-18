@@ -3,12 +3,15 @@ extends Node3D
 @export var MapLocation : PackedScene
 @export var MapPath : PackedScene
 @export var WorldMap : Map 
+@export var Player : PackedScene
+
+var homeNode = null
 
 func _ready():
 	#var newLocation = MapLocation.instantiate()
 	#add_child(newLocation)
-	initialize_map()
-	test()
+	#initialize_map()
+	#test()
 	pass
 
 func initialize_map():
@@ -17,6 +20,8 @@ func initialize_map():
 		add_child(newLocation)
 		newLocation.position = node.position
 		newLocation.locationName = node.name
+		if node.name == "Home":
+			homeNode = newLocation
 
 	var i = 0
 	for list in WorldMap.edges:
@@ -28,15 +33,6 @@ func initialize_map():
 			from.paths.append(newEdge)
 			to.paths.append(newEdge)
 			newEdge.initialize(to)
-			#newEdge.global_position = from.global_position
-			#var angle = from.global_position.angle_to(to.global_position)
-			#var distance = from.global_position.distance_to(to.global_position)
-			#newEdge.look_at(to.global_position, Vector3.UP)
-			#newEdge.rotation.x = 0
-			#newEdge.rotation.z = 0
-			#newEdge.global_position.x = (to.global_position.x + from.global_position.x) / 2
-			#newEdge.global_position.z = (to.global_position.z + from.global_position.z) / 2
-			#newEdge.scale.z = distance - 2.5
 		i += 1
 
 func test():

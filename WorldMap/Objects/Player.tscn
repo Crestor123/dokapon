@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://c1ubmr4ywp4y2"]
+
+[ext_resource type="Script" path="res://WorldMap/Scripts/Player.gd" id="1_281hi"]
+[ext_resource type="PackedScene" uid="uid://6yqbduj0uwqi" path="res://WorldMap/Objects/Button3D.tscn" id="2_x0nhg"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_tencj"]
+
+[node name="Player" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("1_281hi")
+button = ExtResource("2_x0nhg")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_tencj")
+
+[node name="TraverseButtons" type="Node3D" parent="."]
