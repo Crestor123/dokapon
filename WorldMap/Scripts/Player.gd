@@ -38,26 +38,28 @@ func create_buttons():
 		
 	for path in currentLocation.paths:
 		var newButton = button.instantiate()
+		var buttonPosition : Vector3
 		traverseButtons.add_child(newButton)
 		newButton.global_position = global_position
 		newButton.global_position.y += 1.1
-		
-		newButton.global_position.x = (path.to.global_position.x + path.from.global_position.x) / 2
-		newButton.global_position.z = (path.to.global_position.z + path.from.global_position.z) / 2
-		
+
 		newButton.buttonPressed.connect(traverse)
 		
 		if currentLocation == path.from:
 			newButton.traverseLocation = path.to
 			newButton.look_at(path.to.global_position, Vector3.UP)
+			traverseButtons.look_at(path.to.global_position, Vector3.UP)
 		else:
 			newButton.traverseLocation = path.from
 			newButton.look_at(path.from.global_position, Vector3.UP)
-		newButton.rotation.x = 0
-		newButton.rotation.z = 0
+			traverseButtons.look_at(path.from.global_position, Vector3.UP)
+			
+		newButton.position.z = -2
+		buttonPosition = newButton.global_position
+		traverseButtons.rotation.y = 0
+		newButton.global_position = buttonPosition
 	pass
 
 func delete_buttons():
 	for child in traverseButtons.get_children():
 		child.queue_free()
-	print(traverseButtons.get_child_count())

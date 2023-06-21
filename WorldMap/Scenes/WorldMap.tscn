@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://o8wj2bfrcf6g"]
+[gd_scene load_steps=11 format=3 uid="uid://buof6hwh0brmi"]
 
-[ext_resource type="Script" path="res://WorldMap/Scripts/WorldMap.gd" id="1_1tb8e"]
-[ext_resource type="Script" path="res://WorldMap/Scripts/WorldMapNodes.gd" id="1_m7a8k"]
+[ext_resource type="Script" path="res://WorldMap/Scripts/Game.gd" id="1_i6auu"]
+[ext_resource type="Script" path="res://WorldMap/Scripts/Camera.gd" id="2_3bt2u"]
 [ext_resource type="PackedScene" uid="uid://4ycrxi3higj1" path="res://WorldMap/Objects/MapLocation.tscn" id="2_kn4ug"]
+[ext_resource type="Script" path="res://WorldMap/Scripts/Locations.gd" id="2_rkm57"]
 [ext_resource type="PackedScene" uid="uid://bivt1yg7m65v3" path="res://WorldMap/Objects/MapPath.tscn" id="3_3eirm"]
 [ext_resource type="Resource" uid="uid://c801gu7obwjly" path="res://WorldMap/Resources/WorldMap.tres" id="3_t32oe"]
 [ext_resource type="Script" path="res://WorldMap/Scripts/Players.gd" id="5_d7llj"]
@@ -14,11 +15,13 @@ size = Vector3(30, 1, 30)
 [sub_resource type="BoxMesh" id="BoxMesh_6wh56"]
 size = Vector3(30, 1, 30)
 
-[node name="WorldMap" type="Node3D"]
-script = ExtResource("1_1tb8e")
+[node name="Game" type="Node3D"]
+script = ExtResource("1_i6auu")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.170622, 0.985337, 0, -0.985337, 0.170622, 0, 6.63909, 0.692081)
+current = true
+script = ExtResource("2_3bt2u")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Camera3D"]
 
@@ -30,8 +33,8 @@ shape = SubResource("BoxShape3D_j2eje")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
 mesh = SubResource("BoxMesh_6wh56")
 
-[node name="MapNodes" type="Node3D" parent="."]
-script = ExtResource("1_m7a8k")
+[node name="Locations" type="Node3D" parent="."]
+script = ExtResource("2_rkm57")
 MapLocation = ExtResource("2_kn4ug")
 MapPath = ExtResource("3_3eirm")
 WorldMap = ExtResource("3_t32oe")
