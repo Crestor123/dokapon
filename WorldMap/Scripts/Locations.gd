@@ -20,8 +20,11 @@ func initialize_map():
 		add_child(newLocation)
 		newLocation.position = node.position
 		newLocation.locationName = node.name
+		newLocation.type = node.type
 		if node.name == "Home":
 			homeNode = newLocation
+		newLocation.button.buttonPressed.connect(get_parent().update_location_UI)
+		newLocation.button.set_data([newLocation.locationName, newLocation.type])
 
 	var i = 0
 	for list in WorldMap.edges:

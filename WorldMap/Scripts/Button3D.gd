@@ -2,11 +2,14 @@ extends StaticBody3D
 
 @onready var button = $SubViewport/Button
 
-var traverseLocation = null
+var data = null
 
-signal buttonPressed(location)
+signal buttonPressed(data)
 
 func _on_input_event(camera, event, position, normal, shape_idx):
 	if event is InputEventMouseButton:
 		if event.pressed:
-			buttonPressed.emit(traverseLocation)
+			buttonPressed.emit(data)
+
+func set_data(new_data):
+	data = new_data

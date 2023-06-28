@@ -46,11 +46,11 @@ func create_buttons():
 		newButton.buttonPressed.connect(traverse)
 		
 		if currentLocation == path.from:
-			newButton.traverseLocation = path.to
+			newButton.data = path.to
 			newButton.look_at(path.to.global_position, Vector3.UP)
 			traverseButtons.look_at(path.to.global_position, Vector3.UP)
 		else:
-			newButton.traverseLocation = path.from
+			newButton.data = path.from
 			newButton.look_at(path.from.global_position, Vector3.UP)
 			traverseButtons.look_at(path.from.global_position, Vector3.UP)
 			

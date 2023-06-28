@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://4ycrxi3higj1"]
+[gd_scene load_steps=5 format=3 uid="uid://4ycrxi3higj1"]
 
 [ext_resource type="Script" path="res://WorldMap/Scripts/MapLocation.gd" id="1_x4dlx"]
+[ext_resource type="PackedScene" uid="uid://6yqbduj0uwqi" path="res://WorldMap/Objects/Button3D.tscn" id="2_okucc"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o766d"]
 albedo_color = Color(0, 0.192157, 1, 1)
@@ -18,3 +19,6 @@ script = ExtResource("1_x4dlx")
 mesh = SubResource("CylinderMesh_fqhii")
 
 [node name="Edges" type="Node" parent="."]
+
+[node name="Button3D" parent="." instance=ExtResource("2_okucc")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
