@@ -29,7 +29,7 @@ font_size = 48
 font = ExtResource("9_732j5")
 font_size = 24
 
-[node name="Game" type="Node3D"]
+[node name="WorldMap" type="Node3D"]
 script = ExtResource("1_i6auu")
 
 [node name="Camera3D" type="Camera3D" parent="."]
@@ -83,6 +83,7 @@ grow_vertical = 2
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
+grow_horizontal = 2
 
 [node name="LocationLabel" type="Label" parent="UILayer/Panel/VBoxContainer"]
 layout_mode = 2

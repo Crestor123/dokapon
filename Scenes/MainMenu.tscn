@@ -1,0 +1,34 @@
+[gd_scene load_steps=4 format=3 uid="uid://mgnq0ye4arjm"]
+
+[ext_resource type="Script" path="res://Scripts/MainMenu.gd" id="1_no353"]
+[ext_resource type="FontFile" uid="uid://cpgxxmcq0um5o" path="res://Assets/Fonts/Rubik-Bold.ttf" id="2_4cyl3"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_jlmx4"]
+font = ExtResource("2_4cyl3")
+font_size = 56
+
+[node name="MainMenu" type="Node3D"]
+script = ExtResource("1_no353")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/CenterContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Main Menu"
+label_settings = SubResource("LabelSettings_jlmx4")
+
+[node name="Button" type="Button" parent="CanvasLayer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Start"
+
+[connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/Button" to="." method="_on_button_pressed"]
