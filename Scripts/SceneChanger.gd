@@ -11,4 +11,5 @@ func change_scene(scene : PackedScene):
 	add_child(newScene)
 	print("setting up new scene")
 	newScene.set_main(get_parent())
+	return newScene
 	pass

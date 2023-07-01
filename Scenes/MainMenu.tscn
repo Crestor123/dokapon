@@ -31,4 +31,9 @@ label_settings = SubResource("LabelSettings_jlmx4")
 layout_mode = 2
 text = "Start"
 
+[node name="Button2" type="Button" parent="CanvasLayer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "2 Players"
+
 [connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/Button2" to="." method="_on_button_2_pressed"]

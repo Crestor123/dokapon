@@ -1,6 +1,6 @@
-[gd_scene load_steps=16 format=3 uid="uid://buof6hwh0brmi"]
+[gd_scene load_steps=16 format=3 uid="uid://ci8os2mf70kto"]
 
-[ext_resource type="Script" path="res://WorldMap/Scripts/Game.gd" id="1_i6auu"]
+[ext_resource type="Script" path="res://WorldMap/Scripts/WorldMap.gd" id="1_xkw1y"]
 [ext_resource type="Script" path="res://WorldMap/Scripts/Camera.gd" id="2_3bt2u"]
 [ext_resource type="PackedScene" uid="uid://4ycrxi3higj1" path="res://WorldMap/Objects/MapLocation.tscn" id="2_kn4ug"]
 [ext_resource type="Script" path="res://WorldMap/Scripts/Locations.gd" id="2_rkm57"]
@@ -30,7 +30,7 @@ font = ExtResource("9_732j5")
 font_size = 24
 
 [node name="WorldMap" type="Node3D"]
-script = ExtResource("1_i6auu")
+script = ExtResource("1_xkw1y")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.170622, 0.985337, 0, -0.985337, 0.170622, 0, 6.63909, 0.692081)
@@ -87,14 +87,24 @@ grow_horizontal = 2
 
 [node name="LocationLabel" type="Label" parent="UILayer/Panel/VBoxContainer"]
 layout_mode = 2
-text = "Test Text"
 label_settings = SubResource("LabelSettings_h3gpw")
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="TypeLabel" type="Label" parent="UILayer/Panel/VBoxContainer"]
 layout_mode = 2
-text = "Test Text"
 label_settings = SubResource("LabelSettings_e27g3")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="EndTurnButton" type="Button" parent="UILayer/Panel/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("9_732j5")
+text = "End Turn"
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true

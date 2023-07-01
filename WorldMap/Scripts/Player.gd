@@ -9,6 +9,8 @@ var nextLocation = null
 
 var t = 0.0
 
+signal turnFinished()
+
 func _physics_process(delta):
 	if nextLocation != null:
 		t += delta
@@ -16,7 +18,7 @@ func _physics_process(delta):
 		if transform == nextLocation.transform:
 			currentLocation = nextLocation
 			nextLocation = null
-			create_buttons()
+			#create_buttons()
 	else:
 		t = 0.0
 	
@@ -27,8 +29,9 @@ func start_turn():
 
 #Takes a MapPath node, and moves the player along it
 func traverse(location : Node):
-	delete_buttons()
 	nextLocation = location
+	turnFinished.emit()
+	delete_buttons()
 	pass
 
 #Create a button for each path from the current node

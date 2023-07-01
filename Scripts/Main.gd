@@ -8,3 +8,6 @@ func _ready():
 
 func start_game(playerCount : int):
 	print("starting game with ", playerCount, " players")
+	var gameScene = sceneChanger.change_scene(sceneChanger.WorldMap)
+	gameScene.start_game(playerCount)
+	
