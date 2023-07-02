@@ -11,6 +11,12 @@ var t = 0.0
 
 signal turnFinished()
 
+var playerName : String = "player"
+var playerClass : String = "none"
+var level : int = 0
+
+var coins : int = 0
+
 func _physics_process(delta):
 	if nextLocation != null:
 		t += delta

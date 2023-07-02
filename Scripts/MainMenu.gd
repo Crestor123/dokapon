@@ -18,3 +18,9 @@ func _on_button_pressed():
 func _on_button_2_pressed():
 	print("starting game with 2 players")
 	main.start_game(2)
+
+func _on_host_pressed():
+	main.host_game()
+
+func _on_join_pressed():
+	main.join_game()

@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://cvxmiw1ldcku"]
+[gd_scene load_steps=6 format=3 uid="uid://cvxmiw1ldcku"]
 
 [ext_resource type="Script" path="res://Scripts/SceneChanger.gd" id="1_3vdrv"]
 [ext_resource type="Script" path="res://Scripts/Main.gd" id="1_l44h4"]
 [ext_resource type="PackedScene" uid="uid://mgnq0ye4arjm" path="res://Scenes/MainMenu.tscn" id="2_n58f4"]
 [ext_resource type="PackedScene" uid="uid://ci8os2mf70kto" path="res://WorldMap/Scenes/WorldMap.tscn" id="3_xpn7j"]
+[ext_resource type="Script" path="res://Scripts/Network.gd" id="5_khusj"]
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_l44h4")
@@ -12,3 +13,6 @@ script = ExtResource("1_l44h4")
 script = ExtResource("1_3vdrv")
 mainMenu = ExtResource("2_n58f4")
 WorldMap = ExtResource("3_xpn7j")
+
+[node name="Network" type="Node" parent="."]
+script = ExtResource("5_khusj")

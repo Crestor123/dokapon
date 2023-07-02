@@ -27,13 +27,23 @@ layout_mode = 2
 text = "Main Menu"
 label_settings = SubResource("LabelSettings_jlmx4")
 
-[node name="Button" type="Button" parent="CanvasLayer/CenterContainer/VBoxContainer"]
+[node name="Start" type="Button" parent="CanvasLayer/CenterContainer/VBoxContainer"]
 layout_mode = 2
 text = "Start"
 
-[node name="Button2" type="Button" parent="CanvasLayer/CenterContainer/VBoxContainer"]
+[node name="2Player" type="Button" parent="CanvasLayer/CenterContainer/VBoxContainer"]
 layout_mode = 2
 text = "2 Players"
 
-[connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/Button" to="." method="_on_button_pressed"]
-[connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/Button2" to="." method="_on_button_2_pressed"]
+[node name="Host" type="Button" parent="CanvasLayer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Host a New Game"
+
+[node name="Join" type="Button" parent="CanvasLayer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Join a Game"
+
+[connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/Start" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/2Player" to="." method="_on_button_2_pressed"]
+[connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/Join" to="." method="_on_join_pressed"]

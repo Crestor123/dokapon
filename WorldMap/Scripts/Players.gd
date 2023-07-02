@@ -2,13 +2,13 @@ extends Node3D
 
 @export var Player : PackedScene
 
-var playerName : String = "player"
-var playerClass : String = "none"
-var level : int = 0
+var homeNode = null
 
-var coins : int = 0
+func new_player():
+	initialize_players(1, homeNode)
 
 func initialize_players(playerCount : int, home : Node):
+	homeNode = home
 	for i in range(playerCount):
 		var player = Player.instantiate()
 		add_child(player)

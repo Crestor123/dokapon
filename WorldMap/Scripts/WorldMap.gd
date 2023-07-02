@@ -28,7 +28,7 @@ func start_game(playerCount : int):
 
 func start_turn():
 	while !finished:
-		print("starting turn")
+		#print("starting turn")
 		currentPlayer.start_turn()
 		if currentPlayer == hostPlayer:
 			UI.endTurn.show()
@@ -42,12 +42,11 @@ func evaluate_action():
 	pass
 	
 func end_turn():
-	print("ending turn")
+	#print("ending turn")
 	UI.endTurn.hide()
 	timer.wait_time = 2
 	timer.start()
 	await timer.timeout
-	print("after timer")
 	currentPlayer = players.get_next_player(currentPlayer)
 	pass
 
