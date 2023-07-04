@@ -1,7 +1,8 @@
 extends Node
 
 @export var mainMenu : PackedScene
-@export var WorldMap : PackedScene
+@export var worldMap : PackedScene
+@export var lobby : PackedScene
 
 
 func change_scene(scene : PackedScene):

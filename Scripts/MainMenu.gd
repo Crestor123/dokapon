@@ -12,12 +12,13 @@ func set_main(mainNode : Node):
 
 func _on_button_pressed():
 	print("starting game")
-	main.start_game(1)
-
+	#main.start_game(1)
+	main.open_lobby()
 
 func _on_button_2_pressed():
 	print("starting game with 2 players")
-	main.start_game(2)
+	#main.start_game(2)
+	main.open_lobby()
 
 func _on_host_pressed():
 	main.host_game()

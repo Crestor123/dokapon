@@ -9,7 +9,8 @@ var peers = []
 var port = 5000
 var address = "localhost"
 
-signal new_player()
+signal player_joined(peerId)
+signal peers_synced()
 
 func set_player_node(playerNode):
 	players = playerNode
@@ -25,7 +26,7 @@ func create_server():
 		func(newPeerId):
 			await get_tree().create_timer(1).timeout
 			rpc('add_new_client', newPeerId)
-			rpc('print_debug')
+			#rpc('print_debug')
 			print(peers)
 			print(newPeerId)
 			rpc_id(newPeerId, "add_previous_clients", peers)
@@ -41,10 +42,13 @@ func join_server():
 
 @rpc
 func add_new_client(peerId):
-	peers.append(peerId)
-	if players:
-		print("emitting new player")
-		players.new_player()
+	if peerId == 1:
+		peers.push_front(1)
+	else:
+		peers.append(peerId)
+	#if players:
+	print("emitting new player")
+	player_joined.emit(peerId)
 	pass
 
 @rpc
@@ -52,6 +56,7 @@ func add_previous_clients(peerIds):
 	for peerId in peerIds:
 		print("adding ", peerId)
 		add_new_client(peerId)
+	peers_synced.emit()
 
 @rpc("call_local", "any_peer")
 func print_debug():
