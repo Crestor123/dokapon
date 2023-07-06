@@ -4,6 +4,7 @@ extends Node3D
 @onready var players = playerContainer.get_children() 
 
 signal start_game(playerCount)
+signal close_lobby(error)
 
 var main : Node = null
 
@@ -24,6 +25,15 @@ func player_joined(peerId):
 	print("lobby: player ", peerId, " joined")
 	players[1].text = "ID: " + str(peerId)
 	pass
+
+func player_left(peerId):
+	print("lobby: player ", peerId, " left")
+	if peerId == 1:
+		print("closing lobby")
+		close_lobby.emit()
+	for child in players:
+		if child.text == "ID: " + str(peerId):
+			child.text = "Empty Slot"
 
 func _on_button_pressed():
 	start_game.emit(players.size())

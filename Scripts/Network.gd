@@ -1,5 +1,7 @@
 extends Node
 
+@export var playerData : PackedScene
+
 @onready var main = get_parent()
 var players : Node = null
 
@@ -10,6 +12,7 @@ var port = 5000
 var address = "localhost"
 
 signal player_joined(peerId)
+signal player_left(peerId)
 signal peers_synced()
 
 func set_player_node(playerNode):
@@ -32,12 +35,24 @@ func create_server():
 			rpc_id(newPeerId, "add_previous_clients", peers)
 			add_new_client(newPeerId)
 	)
+	
+	multiplayer_peer.peer_disconnected.connect(
+		func(peerId):
+			rpc('remove_client', peerId)
+			print(peers)
+	)
 	pass
 	
 func join_server():
 	print("joining server")
 	multiplayer_peer.create_client(address, port)
 	multiplayer.multiplayer_peer = multiplayer_peer
+	
+	multiplayer_peer.peer_disconnected.connect(
+		func():
+			rpc('remove_client', 1)
+			print(peers)
+	)
 	pass
 
 @rpc
@@ -50,6 +65,14 @@ func add_new_client(peerId):
 	print("emitting new player")
 	player_joined.emit(peerId)
 	pass
+
+@rpc("call_local")
+func remove_client(peerId):
+	if peerId == 1:
+		print("host left")
+	else:
+		peers.erase(peerId)
+	player_left.emit(peerId)
 
 @rpc
 func add_previous_clients(peerIds):

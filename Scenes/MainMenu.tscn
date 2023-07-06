@@ -32,8 +32,17 @@ layout_mode = 2
 text = "Start"
 
 [node name="2Player" type="Button" parent="CanvasLayer/CenterContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 text = "2 Players"
+
+[node name="TextEdit" type="LineEdit" parent="CanvasLayer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_4cyl3")
+theme_override_font_sizes/font_size = 16
+placeholder_text = "Player Name"
+alignment = 1
+caret_blink = true
 
 [node name="Host" type="Button" parent="CanvasLayer/CenterContainer/VBoxContainer"]
 layout_mode = 2

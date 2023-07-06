@@ -3,15 +3,19 @@ extends Node3D
 @export var Player : PackedScene
 
 var homeNode = null
+var host = null
 
-func new_player():
-	initialize_players(1, homeNode)
+func new_player(id):
+	initialize_players([id], homeNode)
 
-func initialize_players(playerCount : int, home : Node):
+func initialize_players(ids : Array, home : Node):
 	homeNode = home
-	for i in range(playerCount):
+	for i in ids:
 		var player = Player.instantiate()
 		add_child(player)
+		if i == 1:
+			host = player
+		player.ID = i
 		player.currentLocation = home
 		player.global_position = home.global_position
 

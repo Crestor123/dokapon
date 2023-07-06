@@ -1,6 +1,6 @@
-[gd_scene load_steps=16 format=3 uid="uid://ci8os2mf70kto"]
+[gd_scene load_steps=16 format=3 uid="uid://ft76cibe5g8g"]
 
-[ext_resource type="Script" path="res://WorldMap/Scripts/WorldMap.gd" id="1_xkw1y"]
+[ext_resource type="Script" path="res://WorldMap/Scripts/Game.gd" id="1_2txqc"]
 [ext_resource type="Script" path="res://WorldMap/Scripts/Camera.gd" id="2_3bt2u"]
 [ext_resource type="PackedScene" uid="uid://4ycrxi3higj1" path="res://WorldMap/Objects/MapLocation.tscn" id="2_kn4ug"]
 [ext_resource type="Script" path="res://WorldMap/Scripts/Locations.gd" id="2_rkm57"]
@@ -29,8 +29,8 @@ font_size = 48
 font = ExtResource("9_732j5")
 font_size = 24
 
-[node name="WorldMap" type="Node3D"]
-script = ExtResource("1_xkw1y")
+[node name="Game" type="Node3D"]
+script = ExtResource("1_2txqc")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.170622, 0.985337, 0, -0.985337, 0.170622, 0, 6.63909, 0.692081)

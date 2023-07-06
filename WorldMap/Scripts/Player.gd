@@ -4,6 +4,8 @@ extends CharacterBody3D
 
 @onready var traverseButtons = $TraverseButtons
 
+var ID : int
+
 var currentLocation = null
 var nextLocation = null
 
@@ -16,6 +18,9 @@ var playerClass : String = "none"
 var level : int = 0
 
 var coins : int = 0
+
+func _ready():
+	name = str(get_multiplayer_authority())
 
 func _physics_process(delta):
 	if nextLocation != null:

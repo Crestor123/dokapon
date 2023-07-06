@@ -2,8 +2,10 @@ extends Node3D
 
 @onready var startButton = $CanvasLayer/CenterContainer/VBoxContainer/Button
 @onready var main
+@onready var playerName = $CanvasLayer/CenterContainer/VBoxContainer/TextEdit
 
-signal startGame(playerCount : int)
+signal set_name(playerName : String)
+signal open_lobby(host : bool)
 
 func set_main(mainNode : Node):
 	main = mainNode
@@ -13,15 +15,15 @@ func set_main(mainNode : Node):
 func _on_button_pressed():
 	print("starting game")
 	#main.start_game(1)
-	main.open_lobby()
+	open_lobby.emit(true)
 
 func _on_button_2_pressed():
 	print("starting game with 2 players")
 	#main.start_game(2)
-	main.open_lobby()
+	open_lobby.emit(true)
 
 func _on_host_pressed():
-	main.host_game()
+	open_lobby.emit(true)
 
 func _on_join_pressed():
-	main.join_game()
+	open_lobby.emit(false)

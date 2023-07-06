@@ -1,7 +1,7 @@
 extends Node
 
 @export var mainMenu : PackedScene
-@export var worldMap : PackedScene
+@export var game : PackedScene
 @export var lobby : PackedScene
 
 
