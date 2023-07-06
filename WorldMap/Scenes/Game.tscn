@@ -85,6 +85,10 @@ anchors_preset = 10
 anchor_right = 1.0
 grow_horizontal = 2
 
+[node name="TurnLabel" type="Label" parent="UILayer/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Turn"
+
 [node name="LocationLabel" type="Label" parent="UILayer/Panel/VBoxContainer"]
 layout_mode = 2
 label_settings = SubResource("LabelSettings_h3gpw")

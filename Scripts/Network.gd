@@ -11,8 +11,8 @@ var peers = []
 var port = 5000
 var address = "localhost"
 
-signal player_joined(peerId)
-signal player_left(peerId)
+signal player_joined(peerID)
+signal player_left(peerID)
 signal peers_synced()
 
 func set_player_node(playerNode):
@@ -26,19 +26,19 @@ func create_server():
 	add_new_client(1)
 	
 	multiplayer_peer.peer_connected.connect(
-		func(newPeerId):
+		func(newPeerID):
 			await get_tree().create_timer(1).timeout
-			rpc('add_new_client', newPeerId)
+			rpc('add_new_client', newPeerID)
 			#rpc('print_debug')
 			print(peers)
-			print(newPeerId)
-			rpc_id(newPeerId, "add_previous_clients", peers)
-			add_new_client(newPeerId)
+			print(newPeerID)
+			rpc_id(newPeerID, "add_previous_clients", peers)
+			add_new_client(newPeerID)
 	)
 	
 	multiplayer_peer.peer_disconnected.connect(
-		func(peerId):
-			rpc('remove_client', peerId)
+		func(peerID):
+			rpc('remove_client', peerID)
 			print(peers)
 	)
 	pass
@@ -56,29 +56,32 @@ func join_server():
 	pass
 
 @rpc
-func add_new_client(peerId):
-	if peerId == 1:
+func add_new_client(peerID):
+	var newPeer = playerData.instantiate()
+	newPeer.ID = peerID
+	add_child(newPeer)
+	if peerID == 1:
 		peers.push_front(1)
 	else:
-		peers.append(peerId)
+		peers.append(peerID)
 	#if players:
 	print("emitting new player")
-	player_joined.emit(peerId)
+	player_joined.emit(peerID)
 	pass
 
 @rpc("call_local")
-func remove_client(peerId):
-	if peerId == 1:
+func remove_client(peerID):
+	if peerID == 1:
 		print("host left")
 	else:
-		peers.erase(peerId)
-	player_left.emit(peerId)
+		peers.erase(peerID)
+	player_left.emit(peerID)
 
 @rpc
-func add_previous_clients(peerIds):
-	for peerId in peerIds:
-		print("adding ", peerId)
-		add_new_client(peerId)
+func add_previous_clients(peerIDs):
+	for peerID in peerIDs:
+		print("adding ", peerID)
+		add_new_client(peerID)
 	peers_synced.emit()
 
 @rpc("call_local", "any_peer")

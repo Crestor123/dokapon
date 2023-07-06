@@ -13,6 +13,8 @@ var finished = false
 signal game_started()
 signal turn_start(player)
 signal turn_end()
+signal action_evaluate()
+signal turn_synced()
 
 #func _ready():
 	#locations.initialize_map()
@@ -23,19 +25,36 @@ signal turn_end()
 func set_main(node : Node):
 	main = node
 
-func start_game(playerIds : Array):
+func start_game(playerIDs : Array):
 	locations.initialize_map()
-	players.initialize_players(playerIds, locations.homeNode)
+	players.initialize_players(playerIDs, locations.homeNode)
 	#hostPlayer = players.get_child(0)
 	currentPlayer = players.get_child(0)
-	if multiplayer.get_unique_id() == 1:
-		rpc("sync_turn", currentPlayer.ID)
+	#if multiplayer.get_unique_id() == 1:
+		
 	while !finished:
-		await start_turn()
+		if multiplayer.get_unique_id() == 1:
+			timer.wait_time = 0.25
+			timer.start()
+			await timer.timeout
+			rpc("sync_turn", currentPlayer.ID)
+		else:
+			await turn_synced
+			print("after turn sync")
+		start_turn(currentPlayer)
+		if currentPlayer.ID == multiplayer.get_unique_id():
+			await currentPlayer.turnFinished
+			evaluate_action()
+			rpc("evaluate_action")
+		else:
+			await action_evaluate
+		await end_turn(currentPlayer.ID)
+		currentPlayer = players.get_next_player(currentPlayer)
 
-func start_turn():
+func start_turn(player):
 	#print(multiplayer.get_unique_id(), ": start of turn loop")
-	print(multiplayer.get_unique_id(), ": ", currentPlayer.ID, "'s turn")
+	UI.set_turn(str(player.ID))
+	print(multiplayer.get_unique_id(), ": ", player.ID, "'s turn")
 	#print("starting turn")
 	#if multiplayer.get_unique_id() != 1:
 		#await turn_start
@@ -45,21 +64,21 @@ func start_turn():
 		#print("syncing turn")
 		#rpc("sync_turn", currentPlayer.ID)
 		#print(multiplayer.get_unique_id(), ": ", currentPlayer.ID, "'s turn")
-	if currentPlayer.ID == multiplayer.get_unique_id():
-		currentPlayer.start_turn()
+	if player.ID == multiplayer.get_unique_id():
+		player.start_turn()
 		print(multiplayer.get_unique_id(), ": starting turn")
 		UI.endTurn.show()
-		await currentPlayer.turnFinished
+		#await currentPlayer.turnFinished
 	else:
 		#print(multiplayer.get_unique_id(), ": awaiting turn end")
 		UI.endTurn.hide()
-		await turn_end
-		
-	await rpc("end_turn", currentPlayer.ID)
+		#await turn_end
 	#if multiplayer.get_unique_id() == 1:
 		#currentPlayer = players.get_next_player(currentPlayer)
 
+@rpc('any_peer')
 func evaluate_action():
+	action_evaluate.emit()
 	pass
 
 @rpc("call_local")
@@ -71,10 +90,10 @@ func end_turn(playerID):
 	timer.start()
 	await timer.timeout
 	turn_end.emit()
-	if multiplayer.get_unique_id() == 1:
-		currentPlayer = players.get_next_player(currentPlayer)
-		print("syncing turn")
-		rpc("sync_turn", currentPlayer.ID)
+	#if multiplayer.get_unique_id() == 1:
+		#currentPlayer = players.get_next_player(currentPlayer)
+		#print("syncing turn")
+		#rpc("sync_turn", currentPlayer.ID)
 	pass
 
 func update_location_UI(data):
@@ -82,8 +101,10 @@ func update_location_UI(data):
 
 @rpc
 func sync_turn(newCurrentPlayerID):
+	print("syncing turns")
 	for child in players.get_children():
 		if child.ID == newCurrentPlayerID:
 			currentPlayer = child
 	#print("current player: " , currentPlayer.ID)
 	turn_start.emit(currentPlayer)
+	turn_synced.emit()

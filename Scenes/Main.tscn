@@ -21,4 +21,4 @@ lobby = ExtResource("5_ooy2d")
 script = ExtResource("5_khusj")
 playerData = ExtResource("7_5iye2")
 
-[node name="PlayerData" parent="." instance=ExtResource("7_5iye2")]
+[node name="LocalPlayerData" parent="." instance=ExtResource("7_5iye2")]
