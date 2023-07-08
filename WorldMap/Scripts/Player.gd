@@ -11,13 +11,15 @@ var nextLocation = null
 
 var t = 0.0
 
-signal turnFinished()
+signal turnFinished(action)
 
 var playerName : String = "player"
 var playerClass : String = "none"
 var level : int = 0
 
 var coins : int = 0
+
+var action = []
 
 func _ready():
 	name = str(get_multiplayer_authority())
@@ -36,11 +38,16 @@ func _physics_process(delta):
 	pass
 
 func start_turn():
+	action.clear()
 	create_buttons()
+
+func get_action():
+	return action
 
 #Takes a MapPath node, and moves the player along it
 func traverse(location : Node):
 	nextLocation = location
+	action.append(["move", location.locationName])
 	turnFinished.emit()
 	delete_buttons()
 	pass

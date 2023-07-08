@@ -10,10 +10,12 @@ var hostPlayer = null
 var currentPlayer = null
 var finished = false
 
+var action = null
+
 signal game_started()
 signal turn_start(player)
 signal turn_end()
-signal action_evaluate()
+signal action_evaluated()
 signal turn_synced()
 
 #func _ready():
@@ -44,10 +46,11 @@ func start_game(playerIDs : Array):
 		start_turn(currentPlayer)
 		if currentPlayer.ID == multiplayer.get_unique_id():
 			await currentPlayer.turnFinished
-			evaluate_action()
-			rpc("evaluate_action")
+			var action = currentPlayer.get_action()
+			evaluate_action(currentPlayer.ID, action)
+			rpc("evaluate_action", currentPlayer.ID, action)
 		else:
-			await action_evaluate
+			await action_evaluated
 		await end_turn(currentPlayer.ID)
 		currentPlayer = players.get_next_player(currentPlayer)
 
@@ -76,9 +79,21 @@ func start_turn(player):
 	#if multiplayer.get_unique_id() == 1:
 		#currentPlayer = players.get_next_player(currentPlayer)
 
+#Processes the action performed by the player and relays it to the other clients
 @rpc('any_peer')
-func evaluate_action():
-	action_evaluate.emit()
+func evaluate_action(currentPlayerID, action):
+	var actingPlayer = null
+	for player in players.get_children():
+		if player.ID == currentPlayerID:
+			actingPlayer = player
+	for item in action:
+		#Find the location with the same name, and set the player to move toward it
+		if item[0] == "move":
+			for child in locations.get_children():
+				if item[1] == child.locationName:
+					actingPlayer.nextLocation = child
+	print(multiplayer.get_unique_id(), ": evaluating action")
+	action_evaluated.emit()
 	pass
 
 @rpc("call_local")
