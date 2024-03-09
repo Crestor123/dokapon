@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://ddglejyu32vu8"]
+
+[ext_resource type="Script" path="res://WorldMap/Scripts/Dice.gd" id="1_icite"]
+[ext_resource type="PackedScene" uid="uid://bq3ca8jc1m18s" path="res://Assets/Models/Dice.gltf" id="1_tuo26"]
+[ext_resource type="Script" path="res://WorldMap/Scripts/DiceSides.gd" id="2_xql37"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qvann"]
+
+[node name="Dice" type="RigidBody3D"]
+script = ExtResource("1_icite")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_qvann")
+
+[node name="Dice" parent="." instance=ExtResource("1_tuo26")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+
+[node name="Sides" type="Node3D" parent="."]
+script = ExtResource("2_xql37")
+
+[node name="One" type="Node3D" parent="Sides"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="Two" type="Node3D" parent="Sides"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+
+[node name="Three" type="Node3D" parent="Sides"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
+
+[node name="Four" type="Node3D" parent="Sides"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0)
+
+[node name="Five" type="Node3D" parent="Sides"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+
+[node name="Six" type="Node3D" parent="Sides"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)

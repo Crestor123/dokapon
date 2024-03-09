@@ -1,7 +1,8 @@
 extends Node3D
 
 @onready var playerContainer = $CanvasLayer/HBoxContainer/VBoxContainer
-@onready var connectedPlayers = playerContainer.get_children() 
+@onready var connectedPlayers = playerContainer.get_children()
+@onready var startButton = $CanvasLayer/HBoxContainer/VBoxContainer2/Button
 
 signal start_game(playerCount)
 signal close_lobby(error)
@@ -14,6 +15,7 @@ func set_main(mainNode):
 func initialize(playerList = null):
 	if playerList:
 		#await get_tree().create_timer(1).timeout
+		startButton.hide()
 		print(playerList, " already connected")
 		connectedPlayers[0].text = "Host"
 		connectedPlayers[1].text = "ID: " + str(playerList[1])
