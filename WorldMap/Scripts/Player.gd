@@ -12,6 +12,8 @@ var nextLocation = null
 var t = 0.0
 
 signal turnFinished(action)
+signal moveFinished()
+signal moveCountChanged(moves)
 
 var playerName : String = "player"
 var playerClass : String = "none"
@@ -19,6 +21,7 @@ var level : int = 0
 
 var coins : int = 0
 
+var moves : int = 0
 var action = []
 
 func _ready():
@@ -31,13 +34,19 @@ func _physics_process(delta):
 		if transform == nextLocation.transform:
 			currentLocation = nextLocation
 			nextLocation = null
-			#create_buttons()
+			
+			await get_tree().create_timer(0.2).timeout
+			
+			moveFinished.emit()
+			
+			if moves > 0: create_buttons()
 	else:
 		t = 0.0
 	
 	pass
 
-func start_turn():
+func start_turn(moveCount : int):
+	moves = moveCount
 	action.clear()
 	create_buttons()
 
@@ -48,12 +57,17 @@ func get_action():
 func traverse(location : Node):
 	nextLocation = location
 	action.append(["move", location.locationName])
-	turnFinished.emit()
+	moves = moves - 1
+	moveCountChanged.emit(moves)
 	delete_buttons()
+	
 	pass
 
 #Create a button for each path from the current node
 func create_buttons():
+	#If the player has no moves remaining, don't create any buttons
+	if moves <= 0: return
+	
 	if !currentLocation:
 		return
 		
@@ -84,3 +98,8 @@ func create_buttons():
 func delete_buttons():
 	for child in traverseButtons.get_children():
 		child.queue_free()
+
+func end_turn():
+	delete_buttons()
+	turnFinished.emit()
+	pass

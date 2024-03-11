@@ -1,4 +1,4 @@
-extends RigidBody3D
+extends CharacterBody3D
 
 @onready var sides = $Sides
 

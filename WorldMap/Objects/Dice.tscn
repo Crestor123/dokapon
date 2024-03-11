@@ -6,7 +6,7 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_qvann"]
 
-[node name="Dice" type="RigidBody3D"]
+[node name="Dice" type="CharacterBody3D"]
 script = ExtResource("1_icite")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

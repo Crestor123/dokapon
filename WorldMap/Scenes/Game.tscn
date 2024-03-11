@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://ft76cibe5g8g"]
+[gd_scene load_steps=17 format=3 uid="uid://ft76cibe5g8g"]
 
 [ext_resource type="Script" path="res://WorldMap/Scripts/Game.gd" id="1_2txqc"]
 [ext_resource type="Script" path="res://WorldMap/Scripts/Camera.gd" id="2_3bt2u"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://WorldMap/Scripts/Locations.gd" id="2_rkm57"]
 [ext_resource type="PackedScene" uid="uid://bivt1yg7m65v3" path="res://WorldMap/Objects/MapPath.tscn" id="3_3eirm"]
 [ext_resource type="Resource" uid="uid://c801gu7obwjly" path="res://WorldMap/Resources/WorldMap.tres" id="3_t32oe"]
+[ext_resource type="PackedScene" uid="uid://ddglejyu32vu8" path="res://WorldMap/Objects/Dice.tscn" id="3_xb648"]
 [ext_resource type="Script" path="res://WorldMap/Scripts/Players.gd" id="5_d7llj"]
 [ext_resource type="PackedScene" uid="uid://c1ubmr4ywp4y2" path="res://WorldMap/Objects/Player.tscn" id="6_3dsmr"]
 [ext_resource type="FontFile" uid="uid://cpgxxmcq0um5o" path="res://Assets/Fonts/Rubik-Bold.ttf" id="9_732j5"]
@@ -38,6 +39,8 @@ current = true
 script = ExtResource("2_3bt2u")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Camera3D"]
+
+[node name="Dice" parent="." instance=ExtResource("3_xb648")]
 
 [node name="Ground" type="StaticBody3D" parent="."]
 
@@ -88,6 +91,10 @@ grow_horizontal = 2
 [node name="TurnLabel" type="Label" parent="UILayer/Panel/VBoxContainer"]
 layout_mode = 2
 text = "Turn"
+
+[node name="MoveLabel" type="Label" parent="UILayer/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Moves:"
 
 [node name="LocationLabel" type="Label" parent="UILayer/Panel/VBoxContainer"]
 layout_mode = 2
