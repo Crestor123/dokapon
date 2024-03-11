@@ -7,6 +7,9 @@ extends CanvasLayer
 @onready var moveLabel = $Panel/VBoxContainer/MoveLabel
 @onready var endTurn = $Panel/VBoxContainer/EndTurnButton
 
+func _ready():
+	clear_moves()
+
 func set_coins(amount : int):
 	coinsLabel.text = "Coins: " + str(amount)
 

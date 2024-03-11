@@ -41,51 +41,57 @@ func start_game(playerIDs : Array):
 		readyList[ID] = false
 	
 	players.initialize_players(playerIDs, locations.homeNode)
-	#hostPlayer = players.get_child(0)
+
 	currentPlayer = players.get_child(0)
-	#if multiplayer.get_unique_id() == 1:
 	
-	#Ready check
-	rpc("set_ready", ID)
-	if !ready_check():
-		await ready_signal
+	#Make sure all of the clients are ready to proceed
+	if ID == 1:
+		rpc("set_ready", ID)
+		ready_check()
+	else:
+		await ready_check.call_deferred()
 	
 	while !finished:
-		if multiplayer.get_unique_id() == 1:
-			timer.wait_time = 0.25
-			timer.start()
-			await timer.timeout
+		timer.wait_time = 0.25
+		timer.start()
+		await timer.timeout
+		
+		if ID == 1:
+			#Insert dice roll here
 			moveCount = randi_range(1, 6)
-			
-			rpc("sync_turn", currentPlayer.ID, moveCount)
 		else:
+			#Request a turn sync from the host
+			print(ID, ": requesting sync")
+			request_sync.rpc_id(1, ID)
 			await turn_synced
-			print("after turn sync")
+			#print("after turn sync")
+			
 		start_turn(currentPlayer)
 		if currentPlayer.ID == ID:
 			
+			#Connect the player signals to the UI, and the end turn button to the player
 			currentPlayer.moveCountChanged.connect(UI.set_moves)
 			UI.endTurn.connect("pressed", currentPlayer.end_turn)
 			await currentPlayer.turnFinished
+			#Disconnect the UI from the player after the player is done
 			currentPlayer.moveCountChanged.disconnect(UI.set_moves)
 			UI.endTurn.disconnect("pressed", currentPlayer.end_turn)
 			
 			UI.clear_moves()
 			var action = currentPlayer.get_action()
-			#evaluate_action(currentPlayer.ID, action)
-			#Need to wait for all clients to be ready
+
 			rpc("evaluate_action", currentPlayer.ID, action)
 		else:
 			await action_evaluated
+		
 		await end_turn(currentPlayer.ID)
+		
 		currentPlayer = players.get_next_player(currentPlayer)
 
 func start_turn(player):
 	#print(multiplayer.get_unique_id(), ": start of turn loop")
 	UI.set_turn(str(player.ID))
 	print(ID, ": ", player.ID, "'s turn")
-	
-	
 	#print("starting turn")
 	#if multiplayer.get_unique_id() != 1:
 		#await turn_start
@@ -126,7 +132,7 @@ func evaluate_action(currentPlayerID, action):
 					actingPlayer.nextLocation = child
 					break
 			await actingPlayer.moveFinished
-	print(ID, ": evaluating action")
+	print(ID, ": action evaluated")
 	action_evaluated.emit()
 	
 	pass
@@ -161,6 +167,12 @@ func sync_turn(newCurrentPlayerID, moveCount):
 	turn_start.emit(currentPlayer)
 	turn_synced.emit()
 
+@rpc("any_peer", "reliable")
+func request_sync(senderID):
+	#Sent to the host to request turn data
+	rpc_id(senderID, "sync_turn", currentPlayer.ID, moveCount)
+	readyList[senderID] = true
+
 @rpc("call_local", "any_peer", "reliable")
 func set_ready(senderID):
 	#Called from peers as part of a ready check
@@ -173,24 +185,28 @@ func set_ready(senderID):
 		rpc_id(senderID, "send_readyList", readyList)
 	
 	#Once all peers are ready, emit a ready signal
-	if ready_check(): 
-		print(ID, ": emitting ready")
+	if check_readyList(): 
+		#print(ID, ": emitting ready")
 		ready_signal.emit()
 
 @rpc("reliable")
 func send_readyList(readyList : Dictionary):
 	#Function for the host to send the readyList to clients
-	print(ID, ": receiving ready list")
+	#print(ID, ": receiving ready list")
 	for item in readyList:
 		var value = readyList[item]
-		print(item, ": ", value)
 	self.readyList = readyList
 	
-	if ready_check():
+	if check_readyList():
 		ready_signal.emit()
 	pass
 
-func ready_check() -> bool:
+func ready_check():
+	if !check_readyList():
+		await ready_signal
+	unset_ready()
+
+func check_readyList() -> bool:
 	#Check if all of the clients are ready
 	for item in readyList:
 		var value = readyList[item]
