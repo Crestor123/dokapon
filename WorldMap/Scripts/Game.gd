@@ -17,6 +17,7 @@ var action = null
 
 signal game_started()
 signal turn_start(player)
+signal received_action()
 signal turn_end()
 signal ready_signal()
 signal action_evaluated()
@@ -78,8 +79,18 @@ func start_game(playerIDs : Array):
 			UI.endTurn.disconnect("pressed", currentPlayer.end_turn)
 			
 			UI.clear_moves()
-			var action = currentPlayer.get_action()
-
+			action = currentPlayer.get_action()
+			
+			if ID != 1:
+				send_action.rpc_id(1, ID, action)
+		
+		if ID == 1 && currentPlayer.ID != 1:
+			await received_action
+			#Error checking here
+			evaluate_action(currentPlayer.ID, action)
+			rpc("evaluate_action", currentPlayer.ID, action)
+		elif ID == 1:
+			evaluate_action(currentPlayer.ID, action)
 			rpc("evaluate_action", currentPlayer.ID, action)
 		else:
 			await action_evaluated
@@ -122,6 +133,7 @@ func start_turn(player):
 func evaluate_action(currentPlayerID, action):
 	var actingPlayer = null
 	for player in players.get_children():
+		player.moves = 0
 		if player.ID == currentPlayerID:
 			actingPlayer = player
 	for item in action:
@@ -136,6 +148,15 @@ func evaluate_action(currentPlayerID, action):
 	action_evaluated.emit()
 	
 	pass
+
+@rpc("any_peer", "reliable")
+func send_action(senderID, action):
+	print(ID, ": received")
+	if currentPlayer.ID == senderID:
+		self.action = action
+		print(self.action)
+	received_action.emit()
+	
 
 @rpc("call_local", "reliable")
 func end_turn(playerID):
