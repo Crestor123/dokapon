@@ -1,5 +1,6 @@
 extends Node3D
 
+@onready var camera = $Camera3D
 @onready var locations = $Locations
 @onready var players = $Players
 @onready var UI = $UILayer
@@ -69,11 +70,14 @@ func start_game(playerIDs : Array):
 			
 		start_turn(currentPlayer)
 		if currentPlayer.ID == ID:
+			camera.focus(currentPlayer)
 			
 			#Connect the player signals to the UI, and the end turn button to the player
 			currentPlayer.moveCountChanged.connect(UI.set_moves)
 			UI.endTurn.connect("pressed", currentPlayer.end_turn)
+			
 			await currentPlayer.turnFinished
+			
 			#Disconnect the UI from the player after the player is done
 			currentPlayer.moveCountChanged.disconnect(UI.set_moves)
 			UI.endTurn.disconnect("pressed", currentPlayer.end_turn)
@@ -131,11 +135,16 @@ func start_turn(player):
 #Processes the action performed by the player and relays it to the other clients
 @rpc('any_peer', "reliable")
 func evaluate_action(currentPlayerID, action):
+	if ID == currentPlayerID: return
+	
 	var actingPlayer = null
 	for player in players.get_children():
 		player.moves = 0
 		if player.ID == currentPlayerID:
 			actingPlayer = player
+	
+	if ID != actingPlayer.ID:
+		camera.set_followTarget(actingPlayer)
 	for item in action:
 		#Find the location with the same name, and set the player to move toward it
 		if item[0] == "move":
@@ -145,12 +154,14 @@ func evaluate_action(currentPlayerID, action):
 					break
 			await actingPlayer.moveFinished
 	print(ID, ": action evaluated")
+	camera.unset_followTarget()
 	action_evaluated.emit()
 	
 	pass
 
 @rpc("any_peer", "reliable")
 func send_action(senderID, action):
+	#Clients send their actions to the server to be error checked
 	print(ID, ": received")
 	if currentPlayer.ID == senderID:
 		self.action = action
